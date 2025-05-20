@@ -18,5 +18,10 @@ func NewProductController(usecase usecase.ProductUsecase) productController {
 }
 
 func (p *productController) GetProducts(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, p.productUsecase.GetProducts)
+
+	products, err := p.productUsecase.GetProducts()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+	}
+	ctx.JSON(http.StatusOK, products)
 }
